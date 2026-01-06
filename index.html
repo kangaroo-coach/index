@@ -77,11 +77,43 @@
       margin: 10px auto 0;
     }
 
+    /* ===== 輪播圖 ===== */
     .banner {
-      background: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
-        url("https://images.unsplash.com/photo-1558611848-73f7eb4001a1") center/cover;
+      position: relative;
       color: #fff;
       height: 420px;
+      overflow: hidden;
+    }
+    .banner-slides {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .banner-slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      background-size: cover;
+      background-position: center;
+    }
+    .banner-slide.active {
+      opacity: 1;
+    }
+    .banner-slide::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,.6);
+    }
+    .banner-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
       display: flex;
       align-items: center;
       text-align: center;
@@ -94,6 +126,27 @@
       font-size: 18px;
       margin-bottom: 25px;
     }
+    .banner-dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      gap: 10px;
+    }
+    .banner-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .banner-dot.active {
+      background: #ff8c00;
+    }
+
     .btn {
       display: inline-block;
       background: #ff8c00;
@@ -104,6 +157,9 @@
       border: none;
       cursor: pointer;
       transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #ff7700;
     }
     .cards {
       display: grid;
@@ -121,6 +177,7 @@
     .card:hover { transform: translateY(-5px); }
     .card h3 { margin-bottom: 15px; color: #111; }
     .card p {color: #111;}
+    
     footer {
       background: #111;
       color: #fff;
@@ -128,25 +185,92 @@
       padding: 30px;
       font-size: 14px;
     }
-    .social-icons {
+    .bottom {
       display: flex;
       justify-content: center;
       gap: 15px;
       margin-bottom: 20px;
+      align-items: center;
     }
-    .social-icons a {
+    .bottom a {
       display: inline-block;
       width: 28px;
       height: 28px;
       transition: transform 0.3s, opacity 0.3s;
     }
-    .social-icons a:hover {
+    .bottom a:hover {
       transform: translateY(-3px);
       opacity: 0.7;
     }
-    .social-icons svg {
+    .bottom svg {
       width: 100%;
       height: 100%;
+    }
+    .bottom iframe {
+      border-radius: 8px;
+    }
+    .bottom-map {
+      display: flex;
+      flex-direction: column; /* 強制垂直排列 */
+      align-items: center;    /* 水平居中 */
+      gap: 8px;               /* 文字與地圖之間的間距 */
+    }
+
+    /* 選擇性：調整說明文字的樣式 */
+    .bottom-map span {
+      font-size: 13px;
+      color: #ccc;
+      display: block;
+    }
+    /* 讓 info 區域垂直堆疊每個項目 */
+    .bottom-info {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start; /* 文字對齊左側 */
+    }
+
+    /* 讓每個連結變成橫向排列的 Flex 容器 */
+    .bottom-info a {
+      display: flex;
+      align-items: center;
+      gap: 10px; /* 圖示與文字的間距 */
+      width: auto; /* 取消原本固定的寬度 */
+      height: auto;
+      color: #fff;
+      transition: opacity 0.3s;
+    }
+
+    /* 限制 SVG 圖示的大小 */
+    .bottom-info svg {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0; /* 防止圖示被壓縮 */
+    }
+
+    /* 說明文字樣式 */
+    .bottom-info span {
+      font-size: 15px;
+      font-weight: 500;
+    }
+    
+    /* ===== iframe 設定 ===== */
+    #contact {
+      padding: 80px 0 0;
+      background-color: #111;
+    }
+    #contact .container {
+      max-width: 1100px;
+    }
+    #contact h2 {
+      color: #fff;
+    }
+    #contact iframe {
+      width: 100%;
+      height: 1000px;
+      border: none;
+      display: block;
+      background-color: #fff;
     }
   </style>
 </head>
@@ -171,14 +295,44 @@
 
 <main>
   <section class="banner">
-    <div class="container">
-      <h2>專屬你的私人教練</h2>
-      <p>一對一指導・體態改善・增肌減脂</p>
-      <a href="#contact" class="btn">立即預約諮詢</a>
+    <div class="banner-slides">
+      <div class="banner-slide active" style="background-image: url('https://images.unsplash.com/photo-1558611848-73f7eb4001a1');">
+        <div class="banner-content">
+          <div class="container">
+            <h2>專屬你的私人教練</h2>
+            <p>一對一指導・體態改善・增肌減脂</p>
+            <a href="#contact" class="btn">立即預約諮詢</a>
+          </div>
+        </div>
+      </div>
+      <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b');">
+        <div class="banner-content">
+          <div class="container">
+            <h2>科學化訓練方法</h2>
+            <p>量身打造專屬課程・達成健身目標</p>
+            <a href="#contact" class="btn">立即預約諮詢</a>
+          </div>
+        </div>
+      </div>
+      <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48');">
+        <div class="banner-content">
+          <div class="container">
+            <h2>打造理想體態</h2>
+            <p>專業指導・安全有效・持續進步</p>
+            <a href="#contact" class="btn">立即預約諮詢</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="banner-dots">
+      <span class="banner-dot active" onclick="goToSlide(0)"></span>
+      <span class="banner-dot" onclick="goToSlide(1)"></span>
+      <span class="banner-dot" onclick="goToSlide(2)"></span>
     </div>
   </section>
+  
   <section id="about">
-    <div class="container" style="color: #fff;">
+    <div class="container" style="color: #fff; padding: 60px 20px;">
       <h2>關於教練</h2>
       <p style="text-align:center; margin: 0 10% 0;">
         具備專業證照與多年教學經驗，透過科學化訓練與飲食建議，幫助你安全、有效達成目標。
@@ -186,8 +340,9 @@
       </p>
     </div>
   </section>
+  
   <section id="courses">
-    <div class="container" style="color: #fff;">
+    <div class="container" style="color: #fff; padding: 60px 20px;">
       <h2>課程內容</h2>
       <div class="cards">
         <div class="card">
@@ -205,46 +360,99 @@
       </div>
     </div>
   </section>
+  
   <section id="contact">
-    <div class="container">
+    <div class="container" style="padding: 80px 20px;">
       <h2 style="color: #fff;">預約諮詢</h2>
-      <div style="background-color: #fff; padding: 5px; border-radius: 12px;display: block;">
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfNUMVjOR0v18Ng14nSAA-VJ5hsNnagj8XbzFctpmOYoxN_pw/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0" style="width:100%;height: 1000px;">載入中…</iframe>
+      <div style="background-color: #fff; padding: 5px; border-radius: 12px;">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfNUMVjOR0v18Ng14nSAA-VJ5hsNnagj8XbzFctpmOYoxN_pw/viewform?embedded=true">載入中…</iframe>
       </div>
     </div>
   </section>
 </main>
 
 <footer>
-  <div class="social-icons">
-    <a href="https://line.me/ti/p/" target="_blank" rel="noopener noreferrer" aria-label="LINE">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path fill="#ffffff" d="M12 .5C5.385.5 0 4.898 0 10.303c0 4.841 4.27 8.897 10.035 9.668.391.083.923.26 1.058.594.12.303.079.771.038 1.087l-.164 1.026c-.045.303-.24 1.193 1.049.649 1.291-.542 6.916-4.104 9.436-7.019 1.724-1.9 2.548-3.847 2.548-6.005C24 4.898 18.615.5 12 .5zM7.303 13.517H4.917a.636.636 0 0 1-.63-.633V8.083c0-.347.285-.634.63-.634.348 0 .63.287.63.634v4.167h1.756a.634.634 0 0 1 0 1.267zm2.466-.633a.634.634 0 0 1-.631.633.633.633 0 0 1-.627-.633V8.083c0-.347.282-.634.63-.634.346 0 .628.287.628.634zm5.741 0a.633.633 0 0 1-1.141.379l-2.443-3.338v2.958a.632.632 0 0 1-.631.633.632.632 0 0 1-.626-.633v-4.8a.63.63 0 0 1 .624-.632c.195 0 .375.105.495.256l2.462 3.351V8.083c0-.347.282-.634.63-.634.345 0 .63.287.63.634zm3.855-3.035a.634.634 0 0 1 0 1.269H17.61v1.132h1.755a.633.633 0 0 1 0 1.267h-2.386a.633.633 0 0 1-.627-.633V8.083c0-.347.282-.634.63-.634h2.386c.346 0 .627.287.627.634a.63.63 0 0 1-.63.634H17.61v1.132z"/>
-        </svg>
-      </a>
-      <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-          <path fill="#ffffff" d="M40.4 55.2h-9.9c-1.6 0-2.1-.6-2.1-2.1V41c0-1.6.6-2.1 2.1-2.1h9.9v-8.8c0-4 .7-7.8 2.7-11.3 2.1-3.6 5.1-6 8.9-7.4 2.5-.9 5-1.3 7.7-1.3h9.8c1.4 0 2 .6 2 2v11.4c0 1.4-.6 2-2 2-2.7 0-5.4 0-8.1.1-2.7 0-4.1 1.3-4.1 4.1-.1 3 0 5.9 0 9h11.6c1.6 0 2.2.6 2.2 2.2V53c0 1.6-.5 2.1-2.2 2.1H57.3v32.6c0 1.7-.5 2.3-2.3 2.3H42.5c-1.5 0-2.1-.6-2.1-2.1V55.2z"/>
-        </svg>
-      </a>
-      <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-          <path fill="#ffffff" d="M301 256c0 24.852-20.148 45-45 45s-45-20.148-45-45 20.148-45 45-45 45 20.148 45 45zm0 0"/>
-          <path fill="#ffffff" d="M332 120H180c-33.086 0-60 26.914-60 60v152c0 33.086 26.914 60 60 60h152c33.086 0 60-26.914 60-60V180c0-33.086-26.914-60-60-60zm-76 211c-41.355 0-75-33.645-75-75s33.645-75 75-75 75 33.645 75 75-33.645 75-75 75zm86-146c-8.285 0-15-6.715-15-15s6.715-15 15-15 15 6.715 15 15-6.715 15-15 15zm0 0"/>
-          <path fill="#ffffff" d="M377 0H135C60.562 0 0 60.563 0 135v242c0 74.438 60.563 135 135 135h242c74.438 0 135-60.563 135-135V135C512 60.562 451.437 0 377 0zm45 332c0 49.625-40.375 90-90 90H180c-49.625 0-90-40.375-90-90V180c0-49.625 40.375-90 90-90h152c49.625 0 90 40.375 90 90zm0 0"/>
-        </svg>
-      </a>
-      <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-          <path fill="#ffffff" d="M224.113 303.96 307.387 256l-83.274-47.96zm0 0"/>
-          <path fill="#ffffff" d="M256 0C114.637 0 0 114.637 0 256s114.637 256 256 256 256-114.637 256-256S397.363 0 256 0zm159.96 256.262s0 51.918-6.585 76.953c-3.691 13.703-14.496 24.508-28.2 28.195C356.142 368 256 368 256 368s-99.879 0-125.176-6.852c-13.703-3.687-24.508-14.496-28.199-28.199-6.59-24.77-6.59-76.949-6.59-76.949s0-51.914 6.59-76.95c3.688-13.702 14.758-24.773 28.2-28.46C155.858 144 256 144 256 144s100.14 0 125.176 6.852c13.703 3.687 24.508 14.496 28.199 28.199 6.852 25.035 6.586 77.21 6.586 77.21zm0 0"/>
-        </svg>
-      </a>
+  <div class="bottom">
+    <div class="bottom-map">
+      <span>※地点为租借场地</span>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.2058121221976!2d121.5257992!3d25.027088600000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9f74470eb55%3A0xa9191729cfbbdf4!2zRU5KT1lGSVQg5Lqr57e044CQ5Y-k5Lqt6aSo44CR!5e0!3m2!1szh-TW!2stw!4v1767690463118!5m2!1szh-TW!2stw" width="200" height="200" style="border:0; max-width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+      <div class="bottom-info">
+  <a href="https://line.me/R/ti/p/@837yqmpe" target="_blank" rel="noopener noreferrer">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path fill="#ffffff" d="M12 .5C5.385.5 0 4.898 0 10.303c0 4.841 4.27 8.897 10.035 9.668.391.083.923.26 1.058.594.12.303.079.771.038 1.087l-.164 1.026c-.045.303-.24 1.193 1.049.649 1.291-.542 6.916-4.104 9.436-7.019 1.724-1.9 2.548-3.847 2.548-6.005C24 4.898 18.615.5 12 .5zM7.303 13.517H4.917a.636.636 0 0 1-.63-.633V8.083c0-.347.285-.634.63-.634.348 0 .63.287.63.634v4.167h1.756a.634.634 0 0 1 0 1.267zm2.466-.633a.634.634 0 0 1-.631.633.633.633 0 0 1-.627-.633V8.083c0-.347.282-.634.63-.634.346 0 .628.287.628.634zm5.741 0a.633.633 0 0 1-1.141.379l-2.443-3.338v2.958a.632.632 0 0 1-.631.633.632.632 0 0 1-.626-.633v-4.8a.63.63 0 0 1 .624-.632c.195 0 .375.105.495.256l2.462 3.351V8.083c0-.347.282-.634.63-.634.345 0 .63.287.63.634zm3.855-3.035a.634.634 0 0 1 0 1.269H17.61v1.132h1.755a.633.633 0 0 1 0 1.267h-2.386a.633.633 0 0 1-.627-.633V8.083c0-.347.282-.634.63-.634h2.386c.346 0 .627.287.627.634a.63.63 0 0 1-.63.634H17.61v1.132z"/>
+    </svg>
+    <span>官方 LINE 諮詢(台北)</span>
+  </a>
+
+  <a href="https://line.me/R/ti/p/@284dbvpm" target="_blank" rel="noopener noreferrer">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path fill="#ffffff" d="M12 .5C5.385.5 0 4.898 0 10.303c0 4.841 4.27 8.897 10.035 9.668.391.083.923.26 1.058.594.12.303.079.771.038 1.087l-.164 1.026c-.045.303-.24 1.193 1.049.649 1.291-.542 6.916-4.104 9.436-7.019 1.724-1.9 2.548-3.847 2.548-6.005C24 4.898 18.615.5 12 .5zM7.303 13.517H4.917a.636.636 0 0 1-.63-.633V8.083c0-.347.285-.634.63-.634.348 0 .63.287.63.634v4.167h1.756a.634.634 0 0 1 0 1.267zm2.466-.633a.634.634 0 0 1-.631.633.633.633 0 0 1-.627-.633V8.083c0-.347.282-.634.63-.634.346 0 .628.287.628.634zm5.741 0a.633.633 0 0 1-1.141.379l-2.443-3.338v2.958a.632.632 0 0 1-.631.633.632.632 0 0 1-.626-.633v-4.8a.63.63 0 0 1 .624-.632c.195 0 .375.105.495.256l2.462 3.351V8.083c0-.347.282-.634.63-.634.345 0 .63.287.63.634zm3.855-3.035a.634.634 0 0 1 0 1.269H17.61v1.132h1.755a.633.633 0 0 1 0 1.267h-2.386a.633.633 0 0 1-.627-.633V8.083c0-.347.282-.634.63-.634h2.386c.346 0 .627.287.627.634a.63.63 0 0 1-.63.634H17.61v1.132z"/>
+    </svg>
+    <span>官方 LINE 諮詢(桃园)</span>
+  </a>
+
+  <a href="https://www.facebook.com/share/1DTCwBLs6g/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <path fill="#ffffff" d="M40.4 55.2h-9.9c-1.6 0-2.1-.6-2.1-2.1V41c0-1.6.6-2.1 2.1-2.1h9.9v-8.8c0-4 .7-7.8 2.7-11.3 2.1-3.6 5.1-6 8.9-7.4 2.5-.9 5-1.3 7.7-1.3h9.8c1.4 0 2 .6 2 2v11.4c0 1.4-.6 2-2 2-2.7 0-5.4 0-8.1.1-2.7 0-4.1 1.3-4.1 4.1-.1 3 0 5.9 0 9h11.6c1.6 0 2.2.6 2.2 2.2V53c0 1.6-.5 2.1-2.2 2.1H57.3v32.6c0 1.7-.5 2.3-2.3 2.3H42.5c-1.5 0-2.1-.6-2.1-2.1V55.2z"/>
+    </svg>
+    <span>Facebook 粉絲專頁</span>
+  </a>
+
+  <a href="https://www.instagram.com/coach_kangaroo?igsh=MXdkMTU3bjZubnpyOQ%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+      <path fill="#ffffff" d="M301 256c0 24.852-20.148 45-45 45s-45-20.148-45-45 20.148-45 45-45 45 20.148 45 45zm0 0"/>
+      <path fill="#ffffff" d="M332 120H180c-33.086 0-60 26.914-60 60v152c0 33.086 26.914 60 60 60h152c33.086 0 60-26.914 60-60V180c0-33.086-26.914-60-60-60zm-76 211c-41.355 0-75-33.645-75-75s33.645-75 75-75 75 33.645 75 75-33.645 75-75 75zm86-146c-8.285 0-15-6.715-15-15s6.715-15 15-15 15 6.715 15 15-6.715 15-15 15zm0 0"/>
+      <path fill="#ffffff" d="M377 0H135C60.562 0 0 60.563 0 135v242c0 74.438 60.563 135 135 135h242c74.438 0 135-60.563 135-135V135C512 60.562 451.437 0 377 0zm45 332c0 49.625-40.375 90-90 90H180c-49.625 0-90-40.375-90-90V180c0-49.625 40.375-90 90-90h152c49.625 0 90 40.375 90 90zm0 0"/>
+    </svg>
+    <span>Instagram 訓練日常</span>
+  </a>
+
+  <a href="https://youtube.com/channel/UCjXSPfyZoXTsI0A2mKk4Yvw?si=_yaIm4Ou4KPIOCID" target="_blank" rel="noopener noreferrer">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+      <path fill="#ffffff" d="M224.113 303.96 307.387 256l-83.274-47.96zm0 0"/>
+      <path fill="#ffffff" d="M256 0C114.637 0 0 114.637 0 256s114.637 256 256 256 256-114.637 256-256S397.363 0 256 0zm159.96 256.262s0 51.918-6.585 76.953c-3.691 13.703-14.496 24.508-28.2 28.195C356.142 368 256 368 256 368s-99.879 0-125.176-6.852c-13.703-3.687-24.508-14.496-28.199-28.199-6.59-24.77-6.59-76.949-6.59-76.949s0-51.914 6.59-76.95c3.688-13.702 14.758-24.773 28.2-28.46C155.858 144 256 144 256 144s100.14 0 125.176 6.852c13.703 3.687 24.508 14.496 28.199 28.199 6.852 25.035 6.586 77.21 6.586 77.21zm0 0"/>
+    </svg>
+    <span>YouTube 教學頻道</span>
+  </a>
+<a href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+  <svg xmlns="https://www.tiktok.com/@user548464063?_r=1&_t=ZS-92cDDUlBr6m" viewBox="0 0 448 512">
+    <path fill="#ffffff" d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.17h0A122.18 122.18 0 0 0 381 102.39a121.43 121.43 0 0 0 67 20.14z"/>
+  </svg>
+  <span>抖音 訓練短影音</span>
+</a>
+    </div>
   </div>
   <p>© 2026 MyTrainer 私人教練工作室 | 專業．安全．有效</p>
 </footer>
 
 <script>
+// 輪播圖功能
+let currentSlide = 0;
+const slides = document.querySelectorAll('.banner-slide');
+const dots = document.querySelectorAll('.banner-dot');
+const totalSlides = slides.length;
+
+function showSlide(index) {
+  slides.forEach(slide => slide.classList.remove('active'));
+  dots.forEach(dot => dot.classList.remove('active'));
+  
+  slides[index].classList.add('active');
+  dots[index].classList.add('active');
+}
+
+function nextSlide() {
+  currentSlide = (currentSlide + 1) % totalSlides;
+  showSlide(currentSlide);
+}
+
+function goToSlide(index) {
+  currentSlide = index;
+  showSlide(currentSlide);
+}
+
+// 自動輪播，每 5 秒切換一次
+setInterval(nextSlide, 5000);
 </script>
 
 </body>
