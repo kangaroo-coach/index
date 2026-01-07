@@ -47,7 +47,7 @@
       transition: color 0.3s;
     }
     .nav nav a:hover {
-      color: #e63946;
+      color: #ff8c00;
     }
     /* ===== logo ===== */
     .logo {
@@ -81,7 +81,7 @@
     .banner {
       position: relative;
       color: #fff;
-      height: 420px;
+      height: 500px;
       overflow: hidden;
     }
     .banner-slides {
@@ -119,13 +119,40 @@
       text-align: center;
     }
     .banner h2 {
-      font-size: 42px;
+      font-size: 36px;
       margin-bottom: 15px;
+      text-align: center;
     }
+    .banner h2::after { display: none; }
+
     .banner p {
       font-size: 18px;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #ff8c00;
+      font-weight: bold;
     }
+
+    .banner ul {
+      display: inline-block;
+      text-align: left;
+      list-style: none;
+      margin-bottom: 30px;
+      padding: 0;
+    }
+    .banner li {
+      font-size: 16px;
+      margin-bottom: 8px;
+      position: relative;
+      padding-left: 20px;
+    }
+    .banner li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #ff8c00;
+    }
+
     .banner-dots {
       position: absolute;
       bottom: 20px;
@@ -163,97 +190,171 @@
     }
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 30px;
     }
     .card {
-      background: #f9f9f9;
-      padding: 30px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      background: #fff;
+      border-radius: 15px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
       transition: transform 0.3s;
     }
     .card:hover { transform: translateY(-5px); }
-    .card h3 { margin-bottom: 15px; color: #111; }
-    .card p {color: #111;}
+    
+    .card-media-wrapper {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      background: #000;
+      overflow: hidden;
+    }
+    
+    /* 新增：卡片媒體的分頁指示點容器 */
+    .card-media-dots {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 10;
+    }
+
+    .card-media-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      transition: background 0.3s;
+    }
+
+    .card-media-dot.active {
+      background: #ff8c00;
+      width: 12px; /* 啟動中的點稍微長一點，增加辨識度 */
+      border-radius: 4px;
+    }
+
+    /* 優化：在手機版讓下一張圖露出一點邊緣 (Peek effect) */
+    @media (max-width: 768px) {
+      .media-scroller {
+        padding-right: 20px; /* 露出一點點下一張圖 */
+      }
+      .media-item {
+        flex: 0 0 95%; /* 寬度稍微縮小，讓下一張能被看見 */
+        margin-right: 10px;
+      }
+      .nav-btn { display: none; } /* 手機版不需要按鈕，靠滑動 */
+    }
+    /* 媒體容器 */
+    .media-scroller {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none; /* Firefox */
+    }
+    .media-scroller::-webkit-scrollbar { display: none; } /* Chrome */
+    
+    .media-item {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      scroll-snap-align: start;
+    }
+    .media-item img, .media-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* 電腦版切換按鈕 */
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      opacity: 0;
+      transition: all 0.3s;
+      font-size: 18px;
+    }
+    .card:hover .nav-btn { opacity: 1; }
+    .nav-btn:hover { background: #ff8c00; }
+    .prev-btn { left: 10px; }
+    .next-btn { right: 10px; }
+
+    .card-body { padding: 25px; text-align: center; }
+    .card-body h3 { margin-bottom: 10px; color: #111; font-size: 22px; }
+    .card-body p { color: #555; font-size: 15px; }
     
     footer {
       background: #111;
       color: #fff;
-      text-align: center;
-      padding: 30px;
+      padding: 40px 20px;
       font-size: 14px;
     }
     .bottom {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
-      gap: 15px;
-      margin-bottom: 20px;
-      align-items: center;
-    }
-    .bottom a {
-      display: inline-block;
-      width: 28px;
-      height: 28px;
-      transition: transform 0.3s, opacity 0.3s;
-    }
-    .bottom a:hover {
-      transform: translateY(-3px);
-      opacity: 0.7;
-    }
-    .bottom svg {
-      width: 100%;
-      height: 100%;
-    }
-    .bottom iframe {
-      border-radius: 8px;
+      gap: 40px;
+      margin-bottom: 30px;
+      align-items: flex-start;
     }
     .bottom-map {
       display: flex;
-      flex-direction: column; /* 強制垂直排列 */
-      align-items: center;    /* 水平居中 */
-      gap: 8px;               /* 文字與地圖之間的間距 */
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
     }
-
-    /* 選擇性：調整說明文字的樣式 */
     .bottom-map span {
       font-size: 13px;
       color: #ccc;
-      display: block;
     }
-    /* 讓 info 區域垂直堆疊每個項目 */
+    .bottom-map iframe {
+      border-radius: 8px;
+    }
+
+    /* ===== 社群資訊欄位調整 ===== */
     .bottom-info {
       display: flex;
       flex-direction: column;
       gap: 12px;
-      align-items: flex-start; /* 文字對齊左側 */
+      align-items: flex-start;
     }
-
-    /* 讓每個連結變成橫向排列的 Flex 容器 */
     .bottom-info a {
       display: flex;
       align-items: center;
-      gap: 10px; /* 圖示與文字的間距 */
-      width: auto; /* 取消原本固定的寬度 */
-      height: auto;
+      gap: 12px;
       color: #fff;
-      transition: opacity 0.3s;
+      transition: opacity 0.3s, transform 0.3s;
     }
-
-    /* 限制 SVG 圖示的大小 */
+    .bottom-info a:hover {
+      opacity: 0.8;
+      transform: translateX(5px);
+    }
     .bottom-info svg {
-      width: 28px;
-      height: 28px;
-      flex-shrink: 0; /* 防止圖示被壓縮 */
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
     }
-
-    /* 說明文字樣式 */
     .bottom-info span {
       font-size: 15px;
-      font-weight: 500;
     }
-    
+
     /* ===== iframe 設定 ===== */
     #contact {
       padding: 80px 0 0;
@@ -271,6 +372,13 @@
       border: none;
       display: block;
       background-color: #fff;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .banner h2 { font-size: 28px; }
+      .bottom { flex-direction: column; align-items: center; }
+      .bottom-info { align-items: center; }
     }
   </style>
 </head>
@@ -286,7 +394,7 @@
       </svg>
     </h1>
     <nav>
-      <a href="#about">關於我</a>
+      <a href="#about">關於</a>
       <a href="#courses">課程</a>
       <a href="#contact">預約</a>
     </nav>
@@ -299,8 +407,14 @@
       <div class="banner-slide active" style="background-image: url('https://images.unsplash.com/photo-1558611848-73f7eb4001a1');">
         <div class="banner-content">
           <div class="container">
-            <h2>專屬你的私人教練</h2>
-            <p>一對一指導・體態改善・增肌減脂</p>
+            <h2>專業初見（核心價值）</h2>
+            <p>目標是拿來達成的：科學客製私人教練課</p>
+            <ul>
+              <li>效率優先：科學化教學，精準避開訓練誤區。</li>
+              <li>量身打造：100％客製化內容，只給你的身體需要的。</li>
+              <li>成果導向：告別停滯期，讓進步肉眼可見。</li>
+            </ul>
+            <br>
             <a href="#contact" class="btn">立即預約諮詢</a>
           </div>
         </div>
@@ -308,18 +422,45 @@
       <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b');">
         <div class="banner-content">
           <div class="container">
-            <h2>科學化訓練方法</h2>
-            <p>量身打造專屬課程・達成健身目標</p>
-            <a href="#contact" class="btn">立即預約諮詢</a>
+            <h2>體態改造（針對族群）</h2>
+            <p>增肌減脂並不難，難的是『開始』的那一步</p>
+            <ul>
+              <li>體態改造：專為上班族設計，校正久坐體態、重塑線條。</li>
+              <li>飲食控制：不必痛苦節食，教你如何吃出好身材。</li>
+              <li>進度監控：線上線下雙向追蹤，確保每一天都在進化。</li>
+            </ul>
+            <br>
+            <a href="#contact" class="btn">領取你的改造計畫</a>
           </div>
         </div>
       </div>
       <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48');">
         <div class="banner-content">
           <div class="container">
-            <h2>打造理想體態</h2>
-            <p>專業指導・安全有效・持續進步</p>
-            <a href="#contact" class="btn">立即預約諮詢</a>
+            <h2>動作校正（解決痛點）</h2>
+            <p>別再聽不懂指令！從筋膜放鬆到『無痛訓練』</p>
+            <ul>
+              <li>身體修正：針對你的關節活動度，即時調整動作角度。</li>
+              <li>肌肉徵召：找回正確發力感，感受肌肉被精準喚醒。</li>
+              <li>深度放鬆：結合筋膜放鬆與調整，達到訓練與生活無痛。</li>
+            </ul>
+            <br>
+            <a href="#contact" class="btn">預約動作檢測</a>
+          </div>
+        </div>
+      </div>
+      <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438');">
+        <div class="banner-content">
+          <div class="container">
+            <h2>服務延伸（數位優勢）</h2>
+            <p>課後不再忘！你的專屬線上教學圖書館</p>
+            <ul>
+              <li>無限回放：聽不懂就重播，線上教學讓你隨時精進。</li>
+              <li>全境適配：包含居家徒手、健身房器械與專屬課表。</li>
+              <li>隨身指導：讓專業教練走入你的生活，訓練不再間斷。</li>
+            </ul>
+            <br>
+            <a href="#contact" class="btn">查看線上課程</a>
           </div>
         </div>
       </div>
@@ -328,39 +469,115 @@
       <span class="banner-dot active" onclick="goToSlide(0)"></span>
       <span class="banner-dot" onclick="goToSlide(1)"></span>
       <span class="banner-dot" onclick="goToSlide(2)"></span>
+      <span class="banner-dot" onclick="goToSlide(3)"></span>
     </div>
   </section>
-  
+
   <section id="about">
     <div class="container" style="color: #fff; padding: 60px 20px;">
       <h2>關於教練</h2>
-      <p style="text-align:center; margin: 0 10% 0;">
-        具備專業證照與多年教學經驗，透過科學化訓練與飲食建議，幫助你安全、有效達成目標。
-        我們相信健身不只是運動，而是一種生活態度的養成。
-      </p>
+      <div style="max-width: 800px; margin: auto; text-align: left; line-height: 1.8;">
+        <p style="text-align: center; font-weight: bold; font-size: 1.2em; margin-bottom: 20px;">
+          10年經驗，只為解決你「練不出來」的痛。
+        </p>
+        <p>
+          拒絕健身房的推銷與公版課表，我用國際認證技術，換你一輩子的體態自由。為什麼我是你的最後一站？
+        </p>
+        <ul style="margin: 20px 0; padding-left: 20px;">
+          <li><b>自由教練的優勢：</b>沒有業績壓力，我只對你的成果負責。</li>
+          <li><b>四大國際認證：</b>NASM / IFBB / AFAA / ISFA，科學化縮短彎路。</li>
+          <li><b>累積上百位成功案例：</b>精準修正動作徵召，解決身體莫名代償。</li>
+        </ul>
+      </div>
     </div>
   </section>
-  
   <section id="courses">
-    <div class="container" style="color: #fff; padding: 60px 20px;">
-      <h2>課程內容</h2>
+    <div class="container">
+      <h2 style="color: #fff;">課程內容</h2>
       <div class="cards">
+        
         <div class="card">
-          <h3>新手入門</h3>
-          <p>建立正確姿勢與訓練習慣，從零開始打好基礎。</p>
+          <div class="card-media-wrapper">
+            <button class="nav-btn prev-btn" onclick="scrollCard(this, -1)">❮</button>
+            <button class="nav-btn next-btn" onclick="scrollCard(this, 1)">❯</button>
+            <div class="media-scroller">
+              <div class="media-item">
+                <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                  <source src="PeBx1jf3hc4KvGOEL20mvlOswXTHDrWMDfIXO7xTKaQ.mov" type="video/mp4">
+                  您的瀏覽器不支持影片播放。
+                </video>
+              </div>
+            </div>
+            <div class="card-media-dots">
+              <span class="card-media-dot active"></span>
+              <span class="card-media-dot"></span>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3>1：1私人教練課</h3>
+            <p>建立正確姿勢與訓練習慣，從零開始打好基礎，確保不受傷。</p>
+          </div>
         </div>
+
         <div class="card">
-          <h3>增肌減脂</h3>
-          <p>結合重量訓練與精確飲食策略，優化身體組成。</p>
+          <div class="card-media-wrapper">
+            <button class="nav-btn prev-btn" onclick="scrollCard(this, -1)">❮</button>
+            <button class="nav-btn next-btn" onclick="scrollCard(this, 1)">❯</button>
+            <div class="media-scroller">
+              <div class="media-item"><img src="IMG_0424.webp" alt="增肌成果"></div>
+            </div>
+            <div class="card-media-dots">
+              <span class="card-media-dot active"></span>
+              <span class="card-media-dot"></span>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3>線下＋線上飲食控制課表配合</h3>
+            <p>結合重量訓練與精確飲食策略，重塑體態線條，優化代謝環境。</p>
+          </div>
         </div>
+
         <div class="card">
-          <h3>體態雕塑</h3>
-          <p>針對核心、柔軟度與特定線條強化，打造理想曲線。</p>
+          <div class="card-media-wrapper">
+            <button class="nav-btn prev-btn" onclick="scrollCard(this, -1)">❮</button>
+            <button class="nav-btn next-btn" onclick="scrollCard(this, 1)">❯</button>
+            <div class="media-scroller">
+              <div class="media-item"><img src="IMG_0422.webp" alt="體態雕塑1"></div>
+              <div class="media-item"><img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b" alt="體態雕塑2"></div>
+            </div>
+            <div class="card-media-dots">
+              <span class="card-media-dot active"></span>
+              <span class="card-media-dot"></span>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3>動作調整筋膜放鬆</h3>
+            <p>針對核心與線條強化，打造理想視覺曲線，找回自信體態。</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-media-wrapper">
+            <button class="nav-btn prev-btn" onclick="scrollCard(this, -1)">❮</button>
+            <button class="nav-btn next-btn" onclick="scrollCard(this, 1)">❯</button>
+            <div class="media-scroller">
+              <div class="media-item"><img src="IMG_0422.webp" alt="體態雕塑1"></div>
+              <div class="media-item"><img src="IMG_0424.webp" alt="增肌成果"></div>
+            </div>
+            <div class="card-media-dots">
+              <span class="card-media-dot active"></span>
+              <span class="card-media-dot"></span>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3>線上課程</h3>
+            <p>針對核心與線條強化，打造理想視覺曲線，找回自信體態。</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
-  
+
   <section id="contact">
     <div class="container" style="padding: 80px 20px;">
       <h2 style="color: #fff;">預約諮詢</h2>
@@ -372,58 +589,49 @@
 </main>
 
 <footer>
-  <div class="bottom">
-    <div class="bottom-map">
-      <span>※地点为租借场地</span>
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.2058121221976!2d121.5257992!3d25.027088600000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9f74470eb55%3A0xa9191729cfbbdf4!2zRU5KT1lGSVQg5Lqr57e044CQ5Y-k5Lqt6aSo44CR!5e0!3m2!1szh-TW!2stw!4v1767690463118!5m2!1szh-TW!2stw" width="200" height="200" style="border:0; max-width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
+  <div class="container">
+    <div class="bottom">
+      <div class="bottom-map">
+        <span>※ 地點為租借場地</span>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.70213!2d121.54!3d25.04!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDAyJzI0LjAiTiAxMjHCsDMyJzI0LjAiRQ!5e0!3m2!1szh-TW!2stw!4v1625123456789" width="250" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+
       <div class="bottom-info">
-  <a href="https://line.me/R/ti/p/@837yqmpe" target="_blank" rel="noopener noreferrer">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <path fill="#ffffff" d="M12 .5C5.385.5 0 4.898 0 10.303c0 4.841 4.27 8.897 10.035 9.668.391.083.923.26 1.058.594.12.303.079.771.038 1.087l-.164 1.026c-.045.303-.24 1.193 1.049.649 1.291-.542 6.916-4.104 9.436-7.019 1.724-1.9 2.548-3.847 2.548-6.005C24 4.898 18.615.5 12 .5zM7.303 13.517H4.917a.636.636 0 0 1-.63-.633V8.083c0-.347.285-.634.63-.634.348 0 .63.287.63.634v4.167h1.756a.634.634 0 0 1 0 1.267zm2.466-.633a.634.634 0 0 1-.631.633.633.633 0 0 1-.627-.633V8.083c0-.347.282-.634.63-.634.346 0 .628.287.628.634zm5.741 0a.633.633 0 0 1-1.141.379l-2.443-3.338v2.958a.632.632 0 0 1-.631.633.632.632 0 0 1-.626-.633v-4.8a.63.63 0 0 1 .624-.632c.195 0 .375.105.495.256l2.462 3.351V8.083c0-.347.282-.634.63-.634.345 0 .63.287.63.634zm3.855-3.035a.634.634 0 0 1 0 1.269H17.61v1.132h1.755a.633.633 0 0 1 0 1.267h-2.386a.633.633 0 0 1-.627-.633V8.083c0-.347.282-.634.63-.634h2.386c.346 0 .627.287.627.634a.63.63 0 0 1-.63.634H17.61v1.132z"/>
-    </svg>
-    <span>官方 LINE 諮詢(台北)</span>
-  </a>
+        <a href="https://line.me/R/ti/p/@837yqmpe" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M12 .5C5.385.5 0 4.898 0 10.303c0 4.841 4.27 8.897 10.035 9.668.391.083.923.26 1.058.594.12.303.079.771.038 1.087l-.164 1.026c-.045.303-.24 1.193 1.049.649 1.291-.542 6.916-4.104 9.436-7.019 1.724-1.9 2.548-3.847 2.548-6.005C24 4.898 18.615.5 12 .5zM7.303 13.517H4.917a.636.636 0 0 1-.63-.633V8.083c0-.347.285-.634.63-.634.348 0 .63.287.63.634v4.167h1.756a.634.634 0 0 1 0 1.267zm2.466-.633a.634.634 0 0 1-.631.633.633.633 0 0 1-.627-.633V8.083c0-.347.282-.634.63-.634.346 0 .628.287.628.634zm5.741 0a.633.633 0 0 1-1.141.379l-2.443-3.338v2.958a.632.632 0 0 1-.631.633.632.632 0 0 1-.626-.633v-4.8a.63.63 0 0 1 .624-.632c.195 0 .375.105.495.256l2.462 3.351V8.083c0-.347.282-.634.63-.634.345 0 .63.287.63.634zm3.855-3.035a.634.634 0 0 1 0 1.269H17.61v1.132h1.755a.633.633 0 0 1 0 1.267h-2.386a.633.633 0 0 1-.627-.633V8.083c0-.347.282-.634.63-.634h2.386c.346 0 .627.287.627.634a.63.63 0 0 1-.63.634H17.61v1.132z"/></svg>
+          <span>官方 LINE 諮詢 (台北)</span>
+        </a>
 
-  <a href="https://line.me/R/ti/p/@284dbvpm" target="_blank" rel="noopener noreferrer">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <path fill="#ffffff" d="M12 .5C5.385.5 0 4.898 0 10.303c0 4.841 4.27 8.897 10.035 9.668.391.083.923.26 1.058.594.12.303.079.771.038 1.087l-.164 1.026c-.045.303-.24 1.193 1.049.649 1.291-.542 6.916-4.104 9.436-7.019 1.724-1.9 2.548-3.847 2.548-6.005C24 4.898 18.615.5 12 .5zM7.303 13.517H4.917a.636.636 0 0 1-.63-.633V8.083c0-.347.285-.634.63-.634.348 0 .63.287.63.634v4.167h1.756a.634.634 0 0 1 0 1.267zm2.466-.633a.634.634 0 0 1-.631.633.633.633 0 0 1-.627-.633V8.083c0-.347.282-.634.63-.634.346 0 .628.287.628.634zm5.741 0a.633.633 0 0 1-1.141.379l-2.443-3.338v2.958a.632.632 0 0 1-.631.633.632.632 0 0 1-.626-.633v-4.8a.63.63 0 0 1 .624-.632c.195 0 .375.105.495.256l2.462 3.351V8.083c0-.347.282-.634.63-.634.345 0 .63.287.63.634zm3.855-3.035a.634.634 0 0 1 0 1.269H17.61v1.132h1.755a.633.633 0 0 1 0 1.267h-2.386a.633.633 0 0 1-.627-.633V8.083c0-.347.282-.634.63-.634h2.386c.346 0 .627.287.627.634a.63.63 0 0 1-.63.634H17.61v1.132z"/>
-    </svg>
-    <span>官方 LINE 諮詢(桃园)</span>
-  </a>
+        <a href="https://line.me/R/ti/p/@284dbvpm" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M12 .5C5.385.5 0 4.898 0 10.303c0 4.841 4.27 8.897 10.035 9.668.391.083.923.26 1.058.594.12.303.079.771.038 1.087l-.164 1.026c-.045.303-.24 1.193 1.049.649 1.291-.542 6.916-4.104 9.436-7.019 1.724-1.9 2.548-3.847 2.548-6.005C24 4.898 18.615.5 12 .5zM7.303 13.517H4.917a.636.636 0 0 1-.63-.633V8.083c0-.347.285-.634.63-.634.348 0 .63.287.63.634v4.167h1.756a.634.634 0 0 1 0 1.267zm2.466-.633a.634.634 0 0 1-.631.633.633.633 0 0 1-.627-.633V8.083c0-.347.282-.634.63-.634.346 0 .628.287.628.634zm5.741 0a.633.633 0 0 1-1.141.379l-2.443-3.338v2.958a.632.632 0 0 1-.631.633.632.632 0 0 1-.626-.633v-4.8a.63.63 0 0 1 .624-.632c.195 0 .375.105.495.256l2.462 3.351V8.083c0-.347.282-.634.63-.634.345 0 .63.287.63.634zm3.855-3.035a.634.634 0 0 1 0 1.269H17.61v1.132h1.755a.633.633 0 0 1 0 1.267h-2.386a.633.633 0 0 1-.627-.633V8.083c0-.347.282-.634.63-.634h2.386c.346 0 .627.287.627.634a.63.63 0 0 1-.63.634H17.61v1.132z"/></svg>
+          <span>官方 LINE 諮詢 (桃園)</span>
+        </a>
 
-  <a href="https://www.facebook.com/share/1DTCwBLs6g/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-      <path fill="#ffffff" d="M40.4 55.2h-9.9c-1.6 0-2.1-.6-2.1-2.1V41c0-1.6.6-2.1 2.1-2.1h9.9v-8.8c0-4 .7-7.8 2.7-11.3 2.1-3.6 5.1-6 8.9-7.4 2.5-.9 5-1.3 7.7-1.3h9.8c1.4 0 2 .6 2 2v11.4c0 1.4-.6 2-2 2-2.7 0-5.4 0-8.1.1-2.7 0-4.1 1.3-4.1 4.1-.1 3 0 5.9 0 9h11.6c1.6 0 2.2.6 2.2 2.2V53c0 1.6-.5 2.1-2.2 2.1H57.3v32.6c0 1.7-.5 2.3-2.3 2.3H42.5c-1.5 0-2.1-.6-2.1-2.1V55.2z"/>
-    </svg>
-    <span>Facebook 粉絲專頁</span>
-  </a>
+        <a href="https://www.facebook.com/share/1DTCwBLs6g/" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M40.4 55.2h-9.9c-1.6 0-2.1-.6-2.1-2.1V41c0-1.6.6-2.1 2.1-2.1h9.9v-8.8c0-4 .7-7.8 2.7-11.3 2.1-3.6 5.1-6 8.9-7.4 2.5-.9 5-1.3 7.7-1.3h9.8c1.4 0 2 .6 2 2v11.4c0 1.4-.6 2-2 2-2.7 0-5.4 0-8.1.1-2.7 0-4.1 1.3-4.1 4.1-.1 3 0 5.9 0 9h11.6c1.6 0 2.2.6 2.2 2.2V53c0 1.6-.5 2.1-2.2 2.1H57.3v32.6c0 1.7-.5 2.3-2.3 2.3H42.5c-1.5 0-2.1-.6-2.1-2.1V55.2z"/></svg>
+          <span>Facebook 粉絲專頁</span>
+        </a>
 
-  <a href="https://www.instagram.com/coach_kangaroo?igsh=MXdkMTU3bjZubnpyOQ%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-      <path fill="#ffffff" d="M301 256c0 24.852-20.148 45-45 45s-45-20.148-45-45 20.148-45 45-45 45 20.148 45 45zm0 0"/>
-      <path fill="#ffffff" d="M332 120H180c-33.086 0-60 26.914-60 60v152c0 33.086 26.914 60 60 60h152c33.086 0 60-26.914 60-60V180c0-33.086-26.914-60-60-60zm-76 211c-41.355 0-75-33.645-75-75s33.645-75 75-75 75 33.645 75 75-33.645 75-75 75zm86-146c-8.285 0-15-6.715-15-15s6.715-15 15-15 15 6.715 15 15-6.715 15-15 15zm0 0"/>
-      <path fill="#ffffff" d="M377 0H135C60.562 0 0 60.563 0 135v242c0 74.438 60.563 135 135 135h242c74.438 0 135-60.563 135-135V135C512 60.562 451.437 0 377 0zm45 332c0 49.625-40.375 90-90 90H180c-49.625 0-90-40.375-90-90V180c0-49.625 40.375-90 90-90h152c49.625 0 90 40.375 90 90zm0 0"/>
-    </svg>
-    <span>Instagram 訓練日常</span>
-  </a>
+        <a href="https://www.instagram.com/coach_kangaroo" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M301 256c0 24.852-20.148 45-45 45s-45-20.148-45-45 20.148-45 45-45 45 20.148 45 45zm0 0"/><path fill="#ffffff" d="M332 120H180c-33.086 0-60 26.914-60 60v152c0 33.086 26.914 60 60 60h152c33.086 0 60-26.914 60-60V180c0-33.086-26.914-60-60-60zm-76 211c-41.355 0-75-33.645-75-75s33.645-75 75-75 75 33.645 75 75-33.645 75-75 75zm86-146c-8.285 0-15-6.715-15-15s6.715-15 15-15 15 6.715 15 15-6.715 15-15 15zm0 0"/><path fill="#ffffff" d="M377 0H135C60.562 0 0 60.563 0 135v242c0 74.438 60.563 135 135 135h242c74.438 0 135-60.563 135-135V135C512 60.562 451.437 0 377 0zm45 332c0 49.625-40.375 90-90 90H180c-49.625 0-90-40.375-90-90V180c0-49.625 40.375-90 90-90h152c49.625 0 90 40.375 90 90zm0 0"/></svg>
+          <span>Instagram 訓練日常</span>
+        </a>
 
-  <a href="https://youtube.com/channel/UCjXSPfyZoXTsI0A2mKk4Yvw?si=_yaIm4Ou4KPIOCID" target="_blank" rel="noopener noreferrer">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-      <path fill="#ffffff" d="M224.113 303.96 307.387 256l-83.274-47.96zm0 0"/>
-      <path fill="#ffffff" d="M256 0C114.637 0 0 114.637 0 256s114.637 256 256 256 256-114.637 256-256S397.363 0 256 0zm159.96 256.262s0 51.918-6.585 76.953c-3.691 13.703-14.496 24.508-28.2 28.195C356.142 368 256 368 256 368s-99.879 0-125.176-6.852c-13.703-3.687-24.508-14.496-28.199-28.199-6.59-24.77-6.59-76.949-6.59-76.949s0-51.914 6.59-76.95c3.688-13.702 14.758-24.773 28.2-28.46C155.858 144 256 144 256 144s100.14 0 125.176 6.852c13.703 3.687 24.508 14.496 28.199 28.199 6.852 25.035 6.586 77.21 6.586 77.21zm0 0"/>
-    </svg>
-    <span>YouTube 教學頻道</span>
-  </a>
-<a href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-  <svg xmlns="https://www.tiktok.com/@user548464063?_r=1&_t=ZS-92cDDUlBr6m" viewBox="0 0 448 512">
-    <path fill="#ffffff" d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.17h0A122.18 122.18 0 0 0 381 102.39a121.43 121.43 0 0 0 67 20.14z"/>
-  </svg>
-  <span>抖音 訓練短影音</span>
-</a>
+        <a href="https://youtube.com/@coach_kangaroo" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M224.113 303.96 307.387 256l-83.274-47.96zm0 0"/><path fill="#ffffff" d="M256 0C114.637 0 0 114.637 0 256s114.637 256 256 256 256-114.637 256-256S397.363 0 256 0zm159.96 256.262s0 51.918-6.585 76.953c-3.691 13.703-14.496 24.508-28.2 28.195C356.142 368 256 368 256 368s-99.879 0-125.176-6.852c-13.703-3.687-24.508-14.496-28.199-28.199-6.59-24.77-6.59-76.949-6.59-76.949s0-51.914 6.59-76.95c3.688-13.702 14.758-24.773 28.2-28.46C155.858 144 256 144 256 144s100.14 0 125.176 6.852c13.703 3.687 24.508 14.496 28.199 28.199 6.852 25.035 6.586 77.21 6.586 77.21zm0 0"/></svg>
+          <span>YouTube 教學頻道</span>
+        </a>
+
+        <a href="https://www.tiktok.com/@user548464063" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.17h0A122.18 122.18 0 0 0 381 102.39a121.43 121.43 0 0 0 67 20.14z"/></svg>
+          <span>抖音 訓練短影音</span>
+        </a>
+      </div>
     </div>
+    <p style="text-align: center; border-top: 1px solid #333; padding-top: 20px;">
+      © 2026 MyTrainer 私人教練工作室 | 專業．安全．有效
+    </p>
   </div>
-  <p>© 2026 MyTrainer 私人教練工作室 | 專業．安全．有效</p>
 </footer>
 
 <script>
@@ -453,6 +661,26 @@ function goToSlide(index) {
 
 // 自動輪播，每 5 秒切換一次
 setInterval(nextSlide, 5000);
+// 課程卡片捲動邏輯
+function scrollCard(btn, direction) {
+  const wrapper = btn.parentElement;
+  const scroller = wrapper.querySelector('.media-scroller');
+  const scrollAmount = scroller.clientWidth; // 每次捲動一張卡片的寬度
+  
+  scroller.scrollBy({
+    left: direction * scrollAmount,
+    behavior: 'smooth'
+  });
+}
+document.querySelectorAll('.media-scroller').forEach(scroller => {
+  scroller.addEventListener('scroll', () => {
+    const index = Math.round(scroller.scrollLeft / scroller.clientWidth);
+    const dots = scroller.parentElement.querySelectorAll('.card-media-dot');
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === index);
+    });
+  });
+});
 </script>
 
 </body>
